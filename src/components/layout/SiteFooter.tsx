@@ -1,3 +1,4 @@
+import { ContactMethods } from "@/components/contact/ContactMethods";
 import { Container } from "@/components/layout/Container";
 import { CopyrightYear } from "@/components/layout/CopyrightYear";
 import { SiteNav } from "@/components/layout/SiteNav";
@@ -21,13 +22,7 @@ export function SiteFooter() {
         </nav>
         <div>
           <p className="font-sans text-[0.68rem] uppercase tracking-[0.2em] text-sandstone">Contact</p>
-          <p className="mt-5 max-w-xs font-sans text-sm leading-6 text-ivory">
-            Contact details — placeholder until they are supplied.
-          </p>
-          <p className="mt-8 font-sans text-[0.68rem] uppercase tracking-[0.2em] text-sandstone">Social</p>
-          <p className="mt-5 max-w-xs font-sans text-sm leading-6 text-ivory">
-            Social media — placeholder until accounts are supplied.
-          </p>
+          <ContactMethods tone="burgundy" compact className="mt-5" />
         </div>
       </Container>
       <Container className="border-t border-ivory/15 py-6">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
+import { countNewEnquiries } from "@/lib/enquiry/queries";
 import { adminOverview } from "@/lib/pratishtha/queries";
 import { formatUpdated } from "@/lib/pratishtha/types";
 
@@ -17,6 +18,7 @@ async function Overview() {
     ["Published", result.data.published],
     ["Drafts", result.data.drafts],
   ] as const;
+  const incoming = await countNewEnquiries();
 
   return (
     <>
@@ -28,6 +30,11 @@ async function Overview() {
           </div>
         ))}
       </dl>
+      <p className="mt-8">
+        <Link href="/admin/enquiries" className="font-sans text-[0.72rem] uppercase tracking-[0.16em] text-burgundy">
+          Enquiries{incoming.ok ? ` · ${incoming.data} new` : ""}
+        </Link>
+      </p>
       <section className="mt-12">
         <h2 className="font-display text-3xl text-burgundy">Recently updated</h2>
         {result.data.recent.length === 0 ? <p className="mt-4 leading-7 text-charcoal/75">No records yet.</p> : null}

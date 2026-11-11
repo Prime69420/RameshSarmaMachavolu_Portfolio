@@ -8,7 +8,11 @@ The Pratishtha archive and private administration pages read from Supabase. Setu
 
 ## Enquiries
 
-The contact form does not send or store a message while `enquiryEndpoint` in `src/data/enquiry.ts` is `null`. Before accepting live enquiries, set that value to a same-origin handler such as `/api/enquiry` and implement the handler on the server. Do not put keys or secrets in the client file. No telephone number, email address, or postal address is published because none has been supplied.
+The contact page collects a name, email address, optional mobile number, subject and message. Submissions are posted to `/api/enquiry`. The handler validates the input, rate-limits the request, rejects a filled honeypot, and stores the row with the server-only `SUPABASE_SERVICE_ROLE_KEY`. Visitors cannot read the `enquiries` table. Administrators review messages at `/admin/enquiries`.
+
+Email notification uses `RESEND_API_KEY` and `RESEND_FROM_EMAIL`. The sender must be an address on a domain verified in Resend, not the Gmail recipient. If the database save succeeds and the email does not, the enquiry is kept and the page says the notification was not sent. If the database save fails, nothing is described as received.
+
+Apply `supabase/migrations/20261111130000_enquiries.sql` before expecting a live submission to be stored. The setup notes are in [docs/supabase-setup.md](docs/supabase-setup.md).
 
 ## Develop
 

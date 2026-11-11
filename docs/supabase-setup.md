@@ -1,8 +1,6 @@
 # Pratishtha archive setup
 
-The public website reads published Pratishtha records from Supabase. Administration uses the same project, with Row Level Security deciding who can write. This repository does not contain a Supabase URL or key. Do not commit `.env.local`, and do not paste a service-role key into chat or into any `NEXT_PUBLIC_` variable.
-
-The service-role key bypasses Row Level Security. This website never uses it.
+The public website reads published Pratishtha records from Supabase. Administration uses the same project, with Row Level Security deciding who can write. Contact enquiries are inserted by the server with the service-role key, which bypasses Row Level Security. Do not commit `.env.local`, and do not paste a service-role key into chat or into any `NEXT_PUBLIC_` variable.
 
 ## 1. Create a Supabase project
 
@@ -21,9 +19,14 @@ From Project Settings → API, copy:
 
 If the dashboard shows a publishable key instead of a legacy anon key, put that publishable key in `NEXT_PUBLIC_SUPABASE_ANON_KEY`. You can instead put it in `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and leave the anon variable empty. The application checks the anon variable first, then the publishable variable.
 
-Leave the service-role key in the Supabase dashboard. Do not add it to `.env.local`.
+Leave the service-role key out of any `NEXT_PUBLIC_` variable. The contact form needs it in `SUPABASE_SERVICE_ROLE_KEY`, which only the server enquiry route reads.
 
-Restart `npm run dev` after changing environment variables.
+Also add:
+
+- `RESEND_API_KEY` for the enquiry notification
+- `RESEND_FROM_EMAIL`, an address on a domain verified in Resend, such as `Machavolu Ramesh Sarma <enquiries@your-verified-domain>`
+
+Do not use the Gmail recipient as the sender. Restart `npm run dev` after changing environment variables.
 
 ## 3. Apply the SQL migrations
 
@@ -31,8 +34,9 @@ In the Supabase dashboard, open the SQL Editor. Run the files in this order:
 
 1. `supabase/migrations/20261111120000_pratishtha_archive.sql`
 2. `supabase/migrations/20261111120100_seed_pratishthas.sql`
+3. `supabase/migrations/20261111130000_enquiries.sql`
 
-The first file creates the tables, indexes, `is_admin()`, Row Level Security policies, the private `pratishtha-media` storage bucket, and the storage policies. The second file inserts the supplied Pratishtha records as drafts.
+The first file creates the tables, indexes, `is_admin()`, Row Level Security policies, the private `pratishtha-media` storage bucket, and the storage policies. The second file inserts the supplied Pratishtha records as drafts. The third file creates the private `enquiries` table. Visitors cannot read or insert those rows. An administrator can read them and change their status. The website inserts new enquiries with the service-role key.
 
 If you use the Supabase CLI later, these files are ordinary versioned migrations. The SQL Editor is enough; the CLI is not required.
 
@@ -100,24 +104,28 @@ In the Vercel project, open Settings → Environment Variables and add the same 
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` or `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL`
 
-Apply them to Production, Preview, and Development as needed, then redeploy. Do not add the service-role key.
+Apply them to Production, Preview, and Development as needed, then redeploy. The service-role key and the Resend values are server-only. Do not mark them as exposed to the browser.
 
-The database, storage bucket, policies, and administrator row live in Supabase. Deploying the website does not repeat those dashboard steps.
+The database, storage bucket, policies, and administrator row live in Supabase. Deploying the website does not repeat those dashboard steps. Add and verify a sender domain in Resend before expecting an enquiry email to arrive.
 
 ## What the policies enforce
 
 Public visitors, including signed-in users who are not administrators, can read rows whose status is `published` and the photographs attached to those rows. They cannot insert, update, delete, or publish records, and they cannot read `admin_users` except that a signed-in user can see their own administrator row if one exists.
 
-Administrators can create, edit, publish, unpublish, and delete records, and can manage photographs. `/admin` also checks the session on the server. A visitor who is not signed in is redirected to `/admin/login`. Hiding a button is not the security check.
+Administrators can create, edit, publish, unpublish, and delete records, and can manage photographs. They can also read enquiries and change an enquiry's status. They cannot edit the enquiry text. `/admin` also checks the session on the server. A visitor who is not signed in is redirected to `/admin/login`. Hiding a button is not the security check. Public roles have no policy that lets them read or insert enquiries.
 
 ## Manual dashboard work
 
 These cannot be completed from the repository:
 
 - Create the Supabase project.
-- Copy the project URL and the public anon or publishable key into `.env.local` and Vercel.
-- Run the two SQL files if you are not applying migrations another way.
+- Copy the project URL, the public anon or publishable key, and the server-only service-role key into `.env.local` and Vercel.
+- Add `RESEND_API_KEY` and a verified `RESEND_FROM_EMAIL`.
+- Run the three SQL files if you are not applying migrations another way.
 - Create the Authentication user.
 - Insert that user into `admin_users`.
 - Confirm the private storage bucket if the migration could not create it.

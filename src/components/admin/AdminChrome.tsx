@@ -19,6 +19,9 @@ export function AdminChrome({ email }: { email: string }) {
           <Link href="/admin/pratishthas" className={linkClass}>
             Records
           </Link>
+          <Link href="/admin/enquiries" className={linkClass}>
+            Enquiries
+          </Link>
           <Link href="/admin/pratishthas/new" className={linkClass}>
             Add Pratishtha
           </Link>
