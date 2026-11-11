@@ -21,7 +21,7 @@ export function Hero() {
           </p>
           <p className="mt-6 max-w-prose text-base leading-7 text-charcoal md:text-lg md:leading-8">
             Rooted in an illustrious Vedic lineage, Machavolu Ramesh Sarma has dedicated his life to preserving and
-            practising the sacred traditions of Smartham, Saivaagamam, Jyotisham and Vaastu.
+            practising the sacred traditions of Smarthaagamam, Saivaagamam, Jyotisham and Vaastu.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
             <Button href={destination(pageById("pratishtha"))}>Explore His Kainkaryam</Button>

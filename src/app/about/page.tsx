@@ -2,32 +2,23 @@ import type { Metadata } from "next";
 import { aboutPage } from "@/data/about";
 import { honours, lineage } from "@/data/homepage";
 import { destination, pageById } from "@/data/navigation";
-import { site } from "@/data/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ArchMotif } from "@/components/ui/ArchMotif";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "Sri Machavolu Ramesh Sarma, Vedic scholar, son of Sri Machavolu Rajasekhara Shastri, a Nityaagnihotri, and grandson of Sri Machavolu Ramayya Shastri. Practitioner of Smartham, Saivaagamam, Jyotisham and Vaastu, with more than 2,000 temple Pratishthas.",
-  openGraph: {
-    title: `About · ${site.name}`,
-    description:
-      "A biography and professional profile of Sri Machavolu Ramesh Sarma, Vedic scholar and Pratishthapanacharya.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.about);
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.about)} />
       <PageIntro eyebrow={aboutPage.eyebrow} title={aboutPage.title} lede={aboutPage.lede} />
       <Section labelledBy="about-life">
         <Container className="grid items-start gap-12 lg:grid-cols-12">

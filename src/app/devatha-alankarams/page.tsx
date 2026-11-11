@@ -1,28 +1,19 @@
 import type { Metadata } from "next";
 import { alankaramPage } from "@/data/alankarams";
-import { site } from "@/data/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
 import { SuppliedImage } from "@/components/media/SuppliedImage";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Devatha Alankarams",
-  description:
-    "Devatha Alankaram in the kainkaryam of Sri Machavolu Ramesh Sarma: fifteen categories of sacred adornment, from Swarna and Pasupu Kumkuma to flowers and fruits.",
-  openGraph: {
-    title: `Devatha Alankarams · ${site.name}`,
-    description:
-      "A gallery of the Devatha Alankaram categories offered as devotional service by Sri Machavolu Ramesh Sarma.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.alankarams);
 
 export default function AlankaramsPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.alankarams)} />
       <PageIntro eyebrow={alankaramPage.eyebrow} title={alankaramPage.title} lede={alankaramPage.lede} />
       <Section>
         <Container>

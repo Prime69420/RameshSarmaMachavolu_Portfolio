@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
 import { HomePage } from "@/components/sections/home/HomePage";
-import { site } from "@/data/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: `${site.honorificName} · Vedic Scholar`,
-  },
-  description: site.description,
-  openGraph: {
-    title: site.honorificName,
-    description: site.description,
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.home);
 
 export default function Page() {
-  return <HomePage />;
+  return (
+    <>
+      <JsonLd data={structuredData(publicPages.home)} />
+      <HomePage />
+    </>
+  );
 }

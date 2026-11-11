@@ -1,14 +1,14 @@
 export const scholarshipPage = {
   eyebrow: "Scholarship",
   title: "Four pillars of scholarship",
-  lede: "Smartham, Saivaagamam, Jyotisham and Vaastu are the four fields in which Sri Machavolu Ramesh Sarma studies and serves.",
+  lede: "Smarthaagamam, Saivaagamam, Jyotisham and Vaastu are the four fields in which Sri Machavolu Ramesh Sarma studies and serves.",
   fields: [
     {
       id: "smartham",
-      title: "Smartham",
+      title: "Smarthaagamam",
       mark: "hearth",
       paragraphs: [
-        "Smartham is the Smarta path of Vedic worship. It takes in the rites of the household fire, the recitation of Vedic hymns, and the samskaras and homams conducted in that tradition.",
+        "Smarthaagamam is the Smarta path of Vedic worship. It takes in the rites of the household fire, the recitation of Vedic hymns, and the samskaras and homams conducted in that tradition.",
         "For Sri Machavolu Ramesh Sarma it is one of the four disciplines of scholarship and service. The Yagams, Homams and religious ceremonies of his kainkaryam are offered along this path. He stands in a family line of that observance: his father, Sri Machavolu Rajasekhara Shastri, is a Nityaagnihotri, and his grandfather is Sri Machavolu Ramayya Shastri.",
       ],
     },
@@ -27,7 +27,7 @@ export const scholarshipPage = {
       mark: "orbit",
       paragraphs: [
         "Jyotisham is Vedic astrology: attention to the grahas and the nakshatras, and to the choice of a fitting time for a rite.",
-        "It belongs to his scholarship beside Smartham, Saivaagamam and Vaastu. In the record of his ceremonies, that attention to time is visible in Nakshatra Kalyanams and in the Navagraha and Ashta Dikpaalaka Shanti Kalyanams.",
+        "It belongs to his scholarship beside Smarthaagamam, Saivaagamam and Vaastu. In the record of his ceremonies, that attention to time is visible in Nakshatra Kalyanams and in the Navagraha and Ashta Dikpaalaka Shanti Kalyanams.",
       ],
     },
     {

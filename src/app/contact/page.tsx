@@ -1,28 +1,21 @@
 import type { Metadata } from "next";
-import { site } from "@/data/site";
 import { ContactMethods } from "@/components/contact/ContactMethods";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact Sri Machavolu Ramesh Sarma by enquiry, email, telephone or WhatsApp.",
-  openGraph: {
-    title: `Contact · ${site.name}`,
-    description: "An enquiry page for temple committees, devotees and families, with email, telephone and WhatsApp.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.contact);
 
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.contact)} />
       <PageIntro
         eyebrow="Contact"
         title="An enquiry"

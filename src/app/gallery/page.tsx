@@ -2,24 +2,15 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { galleryCategories, type GalleryCategory } from "@/data/gallery";
-import { site } from "@/data/site";
 import { GalleryArchive } from "@/components/gallery/GalleryArchive";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { Container } from "@/components/layout/Container";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
 import { publishedPratishthaGallery } from "@/lib/pratishtha/queries";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Gallery",
-  description:
-    "A photographic archive of the Pratishthas, yagams, alankarams, Navaratri observance, temple service, ceremonies, honours and home worship of Sri Machavolu Ramesh Sarma.",
-  openGraph: {
-    title: `Gallery · ${site.name}`,
-    description: "Photographs of the kainkaryam of Sri Machavolu Ramesh Sarma, added as authentic pictures are supplied.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.gallery);
 
 async function GalleryContent() {
   await connection();
@@ -39,6 +30,7 @@ async function GalleryContent() {
 export default function GalleryPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.gallery)} />
       <PageIntro
         eyebrow="Gallery"
         title="A photographic archive"

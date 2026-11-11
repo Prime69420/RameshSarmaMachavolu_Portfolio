@@ -1,33 +1,24 @@
 import type { Metadata } from "next";
 import { destination, pageById } from "@/data/navigation";
-import { site } from "@/data/site";
 import { templePhotographs, templePreview } from "@/data/temples";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
 import { SuppliedImage } from "@/components/media/SuppliedImage";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ArchMotif } from "@/components/ui/ArchMotif";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Temple Contributions",
-  description:
-    "Sri Machavolu Ramesh Sarma has donated to temples and helped in their building across the world. His Pratishtha Kainkaryam is recorded separately.",
-  openGraph: {
-    title: `Temple Contributions · ${site.name}`,
-    description:
-      "Temple service, contribution and Pratishtha in the kainkaryam of Sri Machavolu Ramesh Sarma.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.temples);
 
 export default function TempleContributionsPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.temples)} />
       <PageIntro
         eyebrow="Temples"
         title="Service to the temple"

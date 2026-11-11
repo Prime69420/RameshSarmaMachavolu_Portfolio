@@ -1,32 +1,23 @@
 import type { Metadata } from "next";
 import { sadhanaPage } from "@/data/sadhana";
-import { site } from "@/data/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ArchMotif } from "@/components/ui/ArchMotif";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Personal Sadhana",
-  description:
-    "Home Devatarchana and Navaratri Anushthanam of Sri Machavolu Ramesh Sarma, with Sri Bala Devi as the main deity and the vrathams, parayanams and worship supplied by the family.",
-  openGraph: {
-    title: `Personal Sadhana · ${site.name}`,
-    description:
-      "The home worship and Navaratri disciplines of Sri Machavolu Ramesh Sarma, including Sri Bala Devi, more than 100 Saligramas, and the observances devotees attend.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.sadhana);
 
 export default function SadhanaPage() {
   const [main, ...companions] = sadhanaPage.devatarchana;
 
   return (
     <>
+      <JsonLd data={structuredData(publicPages.sadhana)} />
       <PageIntro eyebrow={sadhanaPage.eyebrow} title={sadhanaPage.title} lede={sadhanaPage.lede} />
       <Section id="devatarchana" labelledBy="devatarchana-heading">
         <Container className="grid items-start gap-12 lg:grid-cols-12">

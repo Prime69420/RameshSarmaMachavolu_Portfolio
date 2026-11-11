@@ -3,34 +3,34 @@ import Link from "next/link";
 import { connection } from "next/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { site } from "@/data/site";
 import { ArchivePhoto } from "@/components/archive/ArchivePhoto";
 import { Container } from "@/components/layout/Container";
 import { RelatedPages } from "@/components/layout/RelatedPages";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getPublishedRecord, listMedia, relatedRecords, signedUrls } from "@/lib/pratishtha/queries";
 import { formatEventDate, locationLabel } from "@/lib/pratishtha/types";
+import { fullTitle, isIndexableSlug, pageMetadata, pratishthaDescription, publicPages, structuredData } from "@/lib/seo";
 
 type Params = Promise<{ slug: string }>;
+
+export const instant = false;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   await connection();
   const { slug } = await params;
+  if (!isIndexableSlug(slug)) notFound();
   const result = await getPublishedRecord(slug);
+  if (result.ok && !result.data) notFound();
   const record = result.ok ? result.data : null;
-  if (!record) {
-    return { title: "Pratishtha Kainkaryam" };
-  }
-  const description = record.description || [record.temple_name, locationLabel(record)].filter(Boolean).join(". ");
-  return {
+  if (!record) return { title: "Pratishtha Kainkaryam", robots: { index: false, follow: false } };
+  const description = pratishthaDescription(record);
+  const path = `/pratishtha-kainkaryam/${record.slug}`;
+  return pageMetadata({
+    path,
     title: record.title,
-    description: description || record.title,
-    openGraph: {
-      title: `${record.title} · ${site.name}`,
-      description: description || record.title,
-      locale: "en_IN",
-      type: "article",
-    },
-  };
+    description,
+    crumb: record.title,
+  });
 }
 
 function Fact({ label, value }: { label: string; value: string | null | undefined }) {
@@ -46,6 +46,7 @@ function Fact({ label, value }: { label: string; value: string | null | undefine
 async function RecordDetail({ params }: { params: Params }) {
   await connection();
   const { slug } = await params;
+  if (!isIndexableSlug(slug)) notFound();
   const result = await getPublishedRecord(slug);
   if (!result.ok) {
     return (
@@ -61,6 +62,7 @@ async function RecordDetail({ params }: { params: Params }) {
   if (!result.data) notFound();
 
   const record = result.data;
+  const description = pratishthaDescription(record);
   const [mediaResult, related] = await Promise.all([listMedia(record.id), relatedRecords(record)]);
   const media = mediaResult.ok ? mediaResult.data : [];
   const urls = await signedUrls(media.map((item) => item.storage_path));
@@ -69,6 +71,13 @@ async function RecordDetail({ params }: { params: Params }) {
 
   return (
     <Container className="py-14 md:py-20">
+      <JsonLd
+        data={structuredData(publicPages.pratishtha, {
+          name: fullTitle({ title: record.title }),
+          path: `/pratishtha-kainkaryam/${record.slug}`,
+          description,
+        })}
+      />
       <Link href="/pratishtha-kainkaryam" className="font-sans text-[0.72rem] uppercase tracking-[0.16em] text-burgundy">
         Pratishtha archive
       </Link>
@@ -133,7 +142,12 @@ async function RecordDetail({ params }: { params: Params }) {
   );
 }
 
-export default function PratishthaRecordPage({ params }: { params: Params }) {
+export default async function PratishthaRecordPage({ params }: { params: Params }) {
+  await connection();
+  const { slug } = await params;
+  if (!isIndexableSlug(slug)) notFound();
+  const result = await getPublishedRecord(slug);
+  if (result.ok && !result.data) notFound();
   return (
     <>
       <Suspense fallback={<Container className="py-16"><p className="leading-7 text-charcoal/75">Loading the record…</p></Container>}>

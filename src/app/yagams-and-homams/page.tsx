@@ -1,28 +1,19 @@
 import type { Metadata } from "next";
 import { ritualsPage } from "@/data/rituals";
-import { site } from "@/data/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Yagams and Homams",
-  description:
-    "Yagams, Homams, abhishekas and Shanti ceremonies in the kainkaryam of Sri Machavolu Ramesh Sarma, including Koti Lalitha Sahasranama Homam, Atirudra Yagams and rites beside Manasa Sarovar.",
-  openGraph: {
-    title: `Yagams and Homams · ${site.name}`,
-    description:
-      "The ritual record of Sri Machavolu Ramesh Sarma: Devi homams, Rudra and Shiva kainkaryam, maha yagams, and Shanti and Kalyana ceremonies.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.rituals);
 
 export default function RitualsPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.rituals)} />
       <PageIntro eyebrow={ritualsPage.eyebrow} title={ritualsPage.title} lede={ritualsPage.lede} />
       <nav aria-label="Ritual categories" className="border-b border-sandstone">
         <Container className="flex flex-wrap gap-x-6 gap-y-3 py-5">

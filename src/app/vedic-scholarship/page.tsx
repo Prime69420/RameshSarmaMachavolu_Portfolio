@@ -1,29 +1,20 @@
 import type { Metadata } from "next";
 import { scholarshipPage } from "@/data/scholarship";
-import { site } from "@/data/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { DisciplineMark } from "@/components/ui/DisciplineMark";
 import { Heading } from "@/components/ui/Heading";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Vedic Scholarship",
-  description:
-    "Smartham, Saivaagamam, Jyotisham and Vaastu, the four fields of scholarship and service of Sri Machavolu Ramesh Sarma.",
-  openGraph: {
-    title: `Vedic Scholarship · ${site.name}`,
-    description:
-      "An account of the four disciplines practised by Sri Machavolu Ramesh Sarma: Smartham, Saivaagamam, Jyotisham and Vaastu.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.scholarship);
 
 export default function VedicScholarshipPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.scholarship)} />
       <PageIntro eyebrow={scholarshipPage.eyebrow} title={scholarshipPage.title} lede={scholarshipPage.lede} />
       <nav aria-label="Fields of scholarship" className="border-b border-sandstone">
         <Container className="flex flex-wrap gap-x-6 gap-y-3 py-5">

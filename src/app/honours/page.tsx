@@ -1,27 +1,19 @@
 import type { Metadata } from "next";
 import { honourPhotographs, honourTitles } from "@/data/honours";
-import { site } from "@/data/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { RelatedPages } from "@/components/layout/RelatedPages";
 import { Container } from "@/components/layout/Container";
 import { SuppliedImage } from "@/components/media/SuppliedImage";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
+import { pageMetadata, publicPages, structuredData } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Honours and Titles",
-  description:
-    "Titles and recognitions recorded for Sri Machavolu Ramesh Sarma, including Vaidika Ratna, Aagama Siromani, Alankaara Samraat and Sahasraadhika Pratishthaapanaacharya.",
-  openGraph: {
-    title: `Honours and Titles · ${site.name}`,
-    description: "The honours and titles supplied for Sri Machavolu Ramesh Sarma.",
-    locale: "en_IN",
-    type: "website",
-  },
-};
+export const metadata: Metadata = pageMetadata(publicPages.honours);
 
 export default function HonoursPage() {
   return (
     <>
+      <JsonLd data={structuredData(publicPages.honours)} />
       <PageIntro
         eyebrow="Honours"
         title="A garland of distinctions"

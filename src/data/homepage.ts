@@ -9,14 +9,14 @@ export const introduction = {
   heading: "A life dedicated to Dharma",
   paragraphs: [
     "Sri Machavolu Ramesh Sarma is the son of Sri Machavolu Rajasekhara Shastri, a Nityaagnihotri, and the grandson of Sri Machavolu Ramayya Shastri.",
-    "He is a distinguished Vedic scholar and a practitioner of Smartham, Saivaagamam, Jyotisham and Vaastu. His kainkaryam includes more than 2,000 temple Pratishthas, extensive Yagams, Homams, Alankarams and religious ceremonies, and contributions to temple development.",
+    "He is a distinguished Vedic scholar and a practitioner of Smarthaagamam, Saivaagamam, Jyotisham and Vaastu. His kainkaryam includes more than 2,000 temple Pratishthas, extensive Yagams, Homams, Alankarams and religious ceremonies, and contributions to temple development.",
   ],
 } as const;
 
 export const disciplines = [
   {
     id: "smartham",
-    title: "Smartham",
+    title: "Smarthaagamam",
     mark: "hearth",
     text: "The Smarta path of Vedic worship, one of the four disciplines of his scholarship and practice.",
   },

@@ -1,4 +1,6 @@
+import { cache } from "react";
 import type { GalleryPhotograph } from "@/data/gallery";
+import { sitemapRecords } from "@/lib/seo";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 import { MEDIA_BUCKET, PAGE_SIZE, type ArchiveQuery, type ArchiveRow, type FilterOptions, type PratishthaMedia, type PratishthaRecord, type PratishthaStatus } from "@/lib/pratishtha/types";
@@ -137,12 +139,24 @@ export async function publishedFilters(): Promise<Loaded<FilterOptions>> {
   };
 }
 
-export async function getPublishedRecord(slug: string): Promise<Loaded<PratishthaRecord | null>> {
+export const getPublishedRecord = cache(async (slug: string): Promise<Loaded<PratishthaRecord | null>> => {
   if (!isSupabaseConfigured()) return { ok: false };
   const supabase = await createClient();
   const { data, error } = await supabase.from("pratishthas").select("*").eq("slug", slug).eq("status", "published").maybeSingle();
   if (error) return { ok: false };
   return { ok: true, data: data ? asRecord(data) : null };
+});
+
+export async function publishedSitemapRecords() {
+  if (!isSupabaseConfigured()) return [];
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("pratishthas").select("slug, updated_at, status").eq("status", "published");
+    if (error || !data) return [];
+    return sitemapRecords(data);
+  } catch {
+    return [];
+  }
 }
 
 export async function getRecordById(id: string): Promise<Loaded<PratishthaRecord | null>> {
